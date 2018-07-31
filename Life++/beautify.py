@@ -6,8 +6,8 @@ import json
 import base64
 
 http_url='https://api-cn.faceplusplus.com/facepp/beta/beautify'
-key = "DHgzuAJdgNRM9Cu0XyEPE2ZbfXrp08pO"
-secret = "exwwdQycT09sJL5BEGDL3xhQwffIj2BB"
+key = "***"
+secret = "***"
 filepath = r"./1.jpeg"
 boundary = '----------%s' % hex(int(time.time() * 1000))
 data = []
