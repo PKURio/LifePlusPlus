@@ -5,8 +5,8 @@ import time
 import json
 import sys
 http_url='https://api-cn.faceplusplus.com/facepp/v3/detect'
-key = "DHgzuAJdgNRM9Cu0XyEPE2ZbfXrp08pO"
-secret = "exwwdQycT09sJL5BEGDL3xhQwffIj2BB"
+key = "***"
+secret = "***"
 filepath = sys.argv[1]
 boundary = '----------%s' % hex(int(time.time() * 1000))
 data = []
