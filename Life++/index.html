@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Life++洞天</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> 
+	addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
+</script>
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="js/jquery.flexisel.js"></script>
+<script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+<!-- start-smooth-scrolling-->
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+
+<script>
+		var hosturl = "http://127.0.0.1/";
+        // Put event listeners into place
+        window.addEventListener("DOMContentLoaded", function() {
+            // Grab elements, create settings, etc.
+            var canvas = document.getElementById("canvas"),
+                context = canvas.getContext("2d"),
+                video = document.getElementById("video"),
+                videoObj = { "video": true },
+                image_format= "jpeg",
+                jpeg_quality= 100,
+                errBack = function(error) {
+                    console.log("Video capture error: ", error.code); 
+                };
+            var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(mediaStream) {
+            var video = document.querySelector('video');
+            video.srcObject = mediaStream;
+            video.onloadedmetadata = function(e) {
+                video.play();
+            };
+            })
+            .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
+            // Put video listeners into place
+            if(navigator.getUserMedia) { // Standard
+                navigator.getUserMedia(videoObj, function(stream) {
+                    video.src = stream;
+                    video.play();
+                    $("#snap").show();
+                }, errBack);
+            } 
+            // Get-Save Snapshot - image 
+            document.getElementById("snap").addEventListener("click", function() {
+                context.drawImage(video, 0, 0, 1280, 720);
+                // the fade only works on firefox?
+                $("#video").fadeOut("slow");
+                $("#canvas").fadeIn("slow");
+                $("#snap").hide();
+                $("#reset").show();
+                $("#beautify").show();
+                document.getElementById("live_video").innerHTML = "already click the snap button";
+                Capture();
+            });
+            // reset - clear - to Capture New Photo
+            document.getElementById("reset").addEventListener("click", function() {
+                $("#video").fadeIn("slow");
+                $("#canvas").fadeOut("slow");
+                $("#snap").show();
+                $("#reset").hide();
+                $("#beautify").hide();
+            });
+            // beautify 
+            document.getElementById("beautify").addEventListener("click", function() {
+                $("#snap").hide();
+                $("#beautify").hide();
+                $("#reset").show();
+                Beautify();
+                document.getElementById("img").src = "./2.jpeg";  
+            });
+
+        }, false);
+</script>
+
+<!--start-smoth-scrolling-->
+<!--start-count-->
+<link rel="stylesheet" href="css/jquery.countdown.css" />
+<script src="js/jquery.countdown.js"></script>
+<script src="js/script.js"></script>
+<!--end-count-->
+</head>
+
+<body>
+	<!--start-banner-->
+	<div class="banner" id="home">
+		<div class="header">
+			<div class="container">
+				<div class="head">
+					<div class="header-left">
+						<a href="http://www.hackpku.com/"><h1>&#64;Python Big Project</h1></a>
+					</div>
+					<div class="header-right">
+					<p>李傲然</p>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>	
+		<div class="banner-top">
+			<div class="banner-bottom">
+				<h2 style="font-family:Andale Mono">Life++<span style="font-family:黑体">洞天</span></h2>
+				<h2 style="font-family:幼圆;font-size:35px" >一颦一笑，别有洞天</h2>
+			</div>
+			<div class="b-btn">
+				<a href="#gallery" class="hvr-sweep-to-right" style="font-family:幼圆">立即体验</a>
+			</div>
+		</div>
+	</div>	
+	<!--end-banner-->
+	
+	<!--start-about-->
+	<div class="about">
+		<div class="container">
+			<div class="about-top">
+				<h3 style="font-family:华文细黑;font-size:45px">一颦一笑一语间，python后端有洞天</h3>
+				<div class="about-bottom">
+					<div class="about-bottom-text">
+						<div class="col-md-4 about-bottom-grid">
+							<span class="one"> </span>
+							<h4>设计灵感</h4>
+							<label> </label>
+							<p>.</p>
+						</div>
+						<div class="col-md-4 about-bottom-grid">
+							<span class="two"> </span>
+							<h4>项目意义</h4>
+							<label> </label>
+							<p>.</p>
+						</div>
+						<div class="col-md-4 about-bottom-grid">
+							<span class="tre"> </span>
+							<h4>效果评测</h4>
+							<label> </label>
+							<p>.</p>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--end-about-->
+
+	<!--start-gallery-->
+	<div class="gallery" id="gallery">
+		<div class="select_mode">
+            <div class="b-btn" onclick="changeMode()" style="text-align: center;">
+                <a class="hvr-sweep-to-right" id="mode_switch" style="font-family:幼圆">颜值检测</a>
+            </div>
+		</div>
+		<div class="container">
+			<div class="about-top">
+				<h3 style="font-family:华文细黑;font-size:45px" id="live_video"><br/>男性 -- 0 女性 -- 0<br/><br/></h3>
+				<div class="camcontent" id="show_video">
+					<video id="video" autoplay muted></video>
+					<canvas id="canvas" width="1280" height="720" style="display:none"></canvas>
+					<div id="text_sent_back" style="display:none"></div>
+				</div>
+				<button id = "snap">SNAP</button>
+				<button id = "reset">RESET</button>
+				<button id = "beautify">BEAUTIFY</button>
+				<h3 style="font-family:华文细黑;font-size:45px" id="beautify_pic"><br/>男性 -- 0 女性 -- 0<br/></h3>
+				<img src="./2.jpeg"  alt = "waiting..." id="img"/>
+			</div>
+		</div>
+	</div>
+	<!--end-gallery-->
+
+	
+	<div class="footer"></div>
+	<a href="#home" id="toTop" class="scroll" style="display: block;"> 
+	<span id="toTopHover" style="opacity: 1;"> </span></a>
+
+<script>
+	// function changeSrc() {
+	// 	document.getElementById("img").src = "./2.jpeg";
+	// }
+	var detect_mode = "face";
+    function changeMode() {
+        if (detect_mode == "face") {
+            detect_mode = "emotion";
+            document.getElementById("mode_switch").innerHTML = "表情检测";
+            document.getElementById("live_video").innerHTML = "<br/>请输入您的个性化表情<br/><br/>";
+        }
+        else {
+            detect_mode = "face";
+            document.getElementById("mode_switch").innerHTML  = "颜值检测";
+            document.getElementById("live_video").innerHTML = "<br/>男性 -- 0； 女性 -- 0<br/><br/>";
+        }
+    }
+    // 自动采样
+    var gd_canvas = document.getElementById("canvas"),
+    gd_context = gd_canvas.getContext("2d"),
+    gd_video = document.getElementById("video");
+    function Capture(){
+        gd_context.drawImage(gd_video, 0, 0, 1280, 720);
+        var dataUrl = gd_canvas.toDataURL("image/jpeg", 1);
+        document.getElementById("live_video").innerHTML = "already enter Capture";
+        var hosturl = "http://127.0.0.1/";
+		$.ajax({
+                	type: "POST",
+                  	url: hosturl + "Life++/conduct.php",
+                  	data: {
+                     	imgBase64: dataUrl     
+                  	}
+                }).done(function(msg) {
+  		        	//console.log(msg);
+	        		document.getElementById("live_video").innerHTML = "<br/>男性 -- " + msg.substr(0, 6) + " 女性 -- " + msg.substr(6, 7) + "<br/>";
+                });        
+    }
+    function Beautify() {
+    	$.ajax({
+                	type: "POST",
+                  	url: hosturl + "Life++/beautify.php",
+                }).done(function(msg) {
+  		        	console.log(msg);
+                });  
+        $.ajax({
+                	type: "POST",
+                  	url: hosturl + "Life++/score_beautify.php",
+                }).done(function(msg) {
+  		        	//console.log(msg);
+	        		document.getElementById("beautify_pic").innerHTML = "<br/>男性 -- " + msg.substr(0, 6) + " 女性 -- " + msg.substr(6, 7) + "<br/>";
+                });
+    }
+</script>
+
+</body>
+</html>

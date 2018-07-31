@@ -1,0 +1,2 @@
+﻿您今天的任务：吃饭, 睡觉, 看电影。
+Today's task: eat, sleep and watch movies.
